@@ -1,0 +1,42 @@
+
+name: Build M4RK1M Android APK
+
+on:
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout repository 
+      - uses: actions/checkout@v4
+
+      # Runs a single command using the runners shell
+      - name: Extract Android project
+       run: |
+        mkdir -p project 
+        unzip -q M4RK1M_Business_Manager.zip -d project
+        find project -name settings.gradle -exec dirname {} \; | head -1 > project_path.txt
+      # Runs a set of commands using the runners shell
+      - name: Set up JDK       
+        uses: actions/setup-java@v4
+        with: 
+         distribution: temurin
+         java-version: '17'
+      
+       - name: Build APK
+         run: |
+          cd "$(cat project_path.txt)"
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+       - name: Upload APK
+         uses: actions/upload-artifact@v4
+         with:
+          name: M4RK1M-Business-Manager-APK
+          path: project/**/build/outputs/apk/debug/*.apk
