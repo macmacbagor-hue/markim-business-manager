@@ -1,37 +1,18 @@
 
 name: Build M4RK1M Android APK
 
-on:
+'on':
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Extract Android project
+      - name: Test ZIP file
         run: |
-          mkdir -p project
-          unzip -q M4RK1M_Business_Manager.zip -d project
-          find project -name settings.gradle -exec dirname {} \; | head -1 > project_path.txt
+          ls -la
+          unzip -l M4RK1M_Business_Manager.zip
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-
-      - name: Build APK
-        run: |
-          cd "$(cat project_path.txt)"
-          chmod +x gradlew
-          ./gradlew assembleDebug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: M4RK1M-Business-Manager-APK
-          path: project/**/build/outputs/apk/debug/*.apk
