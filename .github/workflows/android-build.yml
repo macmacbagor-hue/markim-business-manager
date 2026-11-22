@@ -15,7 +15,7 @@ jobs:
       - name: Extract Android project
         run: |
           mkdir -p project
-          unzip -q M4RK1M_Project_Upload.zip -d project
+          unzip -q M4RK1M_Business_Manager.zip -d project
           find project -name settings.gradle -exec dirname {} \; | head -1 > project_path.txt
 
       - name: Set up JDK
