@@ -26,14 +26,23 @@ jobs:
       - name: Extract Android project
         run: |
           unzip -q M4RK1M_Business_Manager.zip -d project
-          ls -la project
+          find project -name settings.gradle
 
       - name: Build Debug APK
-        working-directory: project
-        run: gradle --no-daemon assembleDebug
+        shell: bash
+        run: |
+          PROJECT_DIR="$(dirname "$(find project -name settings.gradle -print -quit)")"
+
+          if [ ! -f "$PROJECT_DIR/settings.gradle" ]; then
+            echo "ERROR: settings.gradle not found!"
+            exit 1
+          fi
+
+          echo "Project folder: $PROJECT_DIR"
+          gradle -p "$PROJECT_DIR" --no-daemon assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: M4RK1M-Business-Manager-APK
-          path: project/app/build/outputs/apk/debug/*.apk
+          path: project/**/app/build/outputs/apk/debug/*.apk
