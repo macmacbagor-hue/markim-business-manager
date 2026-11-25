@@ -25,7 +25,7 @@ jobs:
 
       - name: Extract Android project
         run: |
-          unzip -q M4RK1M_Business_Manager.zip -d project
+          unzip -q M4RK1M_Business_Manager_V2.zip -d project
           find project -name settings.gradle
 
       - name: Build Debug APK
@@ -44,5 +44,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: M4RK1M-Business-Manager-APK
+          name: M4RK1M-Business-Manager-V2-APK
           path: project/**/app/build/outputs/apk/debug/*.apk
