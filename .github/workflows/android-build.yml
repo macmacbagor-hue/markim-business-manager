@@ -25,7 +25,7 @@ jobs:
 
       - name: Extract Android project
         run: |
-          unzip -q M4RK1M_Business_Manager_V2.zip -d project
+          unzip -q M4RK1M_Business_Manager_V2_UPDATED.zip -d project
           find project -name settings.gradle
 
       - name: Build Debug APK
